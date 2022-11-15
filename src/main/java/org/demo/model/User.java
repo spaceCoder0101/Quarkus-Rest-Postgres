@@ -26,7 +26,6 @@ public class User{
 	
 
 	public User() {
-		super();
 	}
 
 	public User(Long id,String email, String password) {

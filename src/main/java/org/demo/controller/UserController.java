@@ -1,6 +1,7 @@
 package org.demo.controller;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -15,9 +16,12 @@ import javax.ws.rs.Produces;
 import org.demo.dao.UserDao;
 import org.demo.model.User;
 
+import io.quarkus.arc.log.LoggerName;
+import io.quarkus.logging.Log;
+
 @Path("/user")
 public class UserController {
-
+	
 	@Inject
 	UserDao dao;
 	
@@ -29,32 +33,24 @@ public class UserController {
 	
 	@GET
 	@Path("/all")
-	@Produces("application/json")
 	public List<User> getAll(){
 		return dao.findAll();
 	}
 	
-	@Transactional
 	@POST
-	@Path("/")
-	@Produces("application/json")
-	@Consumes("application/json")
 	public void create(User u) {
+		Log.info("*****************************************");
+		Log.info(u.getId()+"-"+u.getEmail()+"-"+u.getPassword());
+		Log.info("*****************************************");
 		dao.persist(u);
 	}
 	
 	@DELETE
-	@Path("/")
-	@Produces("application/json")
-	@Consumes("application/json")
 	public void delete(User u) {
 		dao.remove(u);
 	}
 	
 	@PUT
-	@Path("/")
-	@Produces("application/json")
-	@Consumes("application/json")
 	public void update(User u) {
 		dao.merge(u);
 	}
